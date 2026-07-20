@@ -36,7 +36,7 @@ Use this table to look up fundamental Linux commands, their required syntax, and
 
 ## 🛠️ Part 2: Practice Session for Students
 
-> 💡 **Student Tip:** Try typing these commands exactly as shown into your terminal. You can track your progress by checking off the boxes `[ ]` $ightarrow$ `[x]`.
+> 💡 **Student Tip:** Try typing these commands exactly as shown into your terminal. You can track your progress by checking off the boxes`[ ].`
 
 ### 🟢 Phase 1: Basic Navigation & Directory Creation
 
