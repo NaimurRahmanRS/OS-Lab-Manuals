@@ -1293,6 +1293,7 @@ Matrix after scalar multiplication (5x):
 35	40	45	
 ```
 
+
 # Operating System Concepts: CPU Scheduling & Deadlocks
 
 ## 1. Introduction to CPU Scheduling Algorithms
@@ -1302,62 +1303,47 @@ CPU Scheduling is a fundamental process by which the operating system decides wh
 ### Key Metrics
 
 * **Arrival Time (AT):** The time at which a process arrives in the ready queue.
-
 * **Burst Time (BT):** The total CPU time required by a process to execute.
-
 * **Completion Time (CT):** The time at which a process finishes execution.
-
 * **Turnaround Time (TAT):** Total time spent from arrival to completion.
 
-  $$
-  \text{TAT} = \text{CT} - \text{AT}
-  $$
+$$\mathrm{TAT} = \mathrm{CT} - \mathrm{AT}$$
 
 * **Waiting Time (WT):** Total time spent waiting in the ready queue before getting CPU allocation.
 
-  $$
-  \text{WT} = \text{TAT} - \text{BT}
-  $$
+$$\mathrm{WT} = \mathrm{TAT} - \mathrm{BT}$$
+
+---
 
 ### How Common CPU Scheduling Algorithms Work
 
 #### 1. First-Come, First-Served (FCFS)
-
 * **Type:** Non-preemptive
-
 * **Mechanism:** Processes are dispatched in the exact order they arrive in the ready queue (FIFO queue). The process that requests the CPU first gets allocated the CPU first.
-
 * **Pros/Cons:** Simple to understand and implement. However, it can suffer from the **Convoy Effect**, where short processes wait behind long processes, leading to high average waiting times.
 
 #### 2. Shortest Job First (SJF)
-
 * **Type:** Non-preemptive / Preemptive (Shortest Remaining Time First - SRTF)
-
 * **Mechanism:** Selects the process with the smallest Burst Time (BT) from the ready queue.
-
 * **Pros/Cons:** Provides the minimum average waiting time for a given set of processes. However, predicting the exact CPU burst time in advance is difficult in real operating systems, and long processes can face **starvation**.
 
 #### 3. Priority Scheduling
-
 * **Type:** Preemptive or Non-preemptive
-
 * **Mechanism:** Each process is assigned a priority integer value. The CPU is allocated to the process with the highest priority (e.g., lowest numerical value often represents highest priority).
-
 * **Pros/Cons:** Useful for real-time systems where certain tasks are critical. Major disadvantage is **starvation** (low-priority tasks may wait indefinitely), which can be resolved using **Aging** (gradually increasing the priority of processes that wait for a long time).
 
 #### 4. Round Robin (RR)
-
 * **Type:** Preemptive
-
 * **Mechanism:** Designed for time-sharing systems. Each process is assigned a fixed unit of CPU time called a **Time Quantum** or **Time Slice**. Processes are executed in a cyclic order. If a process does not complete within its assigned quantum, it is preempted and put at the tail of the ready queue.
-
 * **Pros/Cons:** Very responsive and fair. Performance heavily depends on the size of the time quantum—too large acts like FCFS, and too small increases context-switching overhead.
+
+---
 
 ## 2. FCFS Scheduling Algorithm Implementation
 
 Below is a complete C++ implementation of the **First-Come, First-Served (FCFS)** CPU scheduling algorithm.
 
-```
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -1420,8 +1406,9 @@ int main() {
 
     return 0;
 }
-
 ```
+
+---
 
 ## 3. Introduction to Deadlocks
 
@@ -1432,12 +1419,11 @@ A **Deadlock** is a situation in a multi-tasking environment where two or more p
 A deadlock can occur if and only if all four of the following conditions hold simultaneously in a system:
 
 1. **Mutual Exclusion:** At least one resource must be held in a non-shareable mode (only one process can use the resource at a time).
-
 2. **Hold and Wait:** A process must be currently holding at least one resource and requesting additional resources that are being held by other processes.
-
 3. **No Preemption:** Resources cannot be forcibly taken from a process; they can only be released voluntarily after the process completes its task.
+4. **Circular Wait:** A closed chain of processes exists such that each process holds one or more resources needed by the next process in the chain.
 
-4. **Circular Wait:** A closed chain of processes exists such that each process holds one or more resources needed by the next process in the chain (e.g., $P_0 \to P_1 \to P_2 \to \dots \to P_n \to P_0$).
+---
 
 ### How Banker's Algorithm Works
 
@@ -1445,23 +1431,21 @@ The **Banker's Algorithm** is a deadlock avoidance and detection algorithm named
 
 #### Key Matrices and Arrays
 
-* **Allocation Matrix (**$n \times m$**):** Defines the number of resources of each type currently allocated to each process.
+* **Allocation Matrix ($n \times m$):** Defines the number of resources of each type currently allocated to each process.
+* **Max Matrix ($n \times m$):** Defines the maximum demand of each resource by each process.
+* **Need Matrix ($n \times m$):** Represents the remaining resource needs of each process.
 
-* **Max Matrix (**$n \times m$**):** Defines the maximum demand of each resource by each process.
+$$\mathrm{Need}[i][j] = \mathrm{Max}[i][j] - \mathrm{Allocation}[i][j]$$
 
-* **Need Matrix (**$n \times m$**):** Represents the remaining resource needs of each process.
+* **Available Array ($m$):** Vector of length $m$ indicating the number of available resources of each type.
 
-  $$
-  \text{Need}[i][j] = \text{Max}[i][j] - \text{Allocation}[i][j]
-  $$
-
-* **Available Array (**$m$**):** Vector of length $m$ indicating the number of available resources of each type.
+---
 
 ## 4. Banker's Algorithm Implementation
 
 Below is the C++ implementation to detect a safe state or deadlock using the Banker's Algorithm.
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -1589,5 +1573,4 @@ int main() {
 
     return 0;
 }
-
 ```
